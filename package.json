@@ -1,0 +1,42 @@
+{
+  "name": "echoey",
+  "version": "1.0.1",
+  "description": "An imitation of golang web framework echo",
+  "main": "dist/echo.js",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "test": "mocha --reporter spec --bail --check-leaks tests/",
+    "build": "tsc",
+    "prettier": "prettier */**/*.ts --ignore-path ./.prettierignore --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cooperhsiung/echoey.git"
+  },
+  "keywords": [
+    "echo",
+    "echoey",
+    "web"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "author": "Cooper Hsiung",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cooperhsiung/echoey/issues"
+  },
+  "homepage": "https://github.com/cooperhsiung/echoey#readme",
+  "dependencies": {
+    "co-body": "^6.0.0",
+    "path-to-regexp": "^3.0.0",
+    "type-is": "^1.6.16"
+  },
+  "devDependencies": {
+    "@types/co-body": "0.0.3",
+    "@types/type-is": "^1.6.2",
+    "prettier": "^1.16.4"
+  }
+}
