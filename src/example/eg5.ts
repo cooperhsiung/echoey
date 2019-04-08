@@ -1,5 +1,5 @@
 import { Echo, Context, handlerFunc } from '../echo';
-import timer from '../middleware/timer';
+import { timer } from '../middleware/timer';
 
 // middleware usage
 
@@ -30,6 +30,10 @@ e.GET('/hello', (c: Context) => {
 
 e.POST('/hello', (c: Context) => {
   c.String(200, 'asd');
+});
+
+e.GET('/hello2', (c: Context) => {
+  c.JSON(200, { as: 1 });
 });
 
 let g = e.Group('/admin');

@@ -1,9 +1,9 @@
 import { handlerFunc, Context } from '../echo';
 
-export default function timer(next: handlerFunc): handlerFunc {
+export function timer(next: handlerFunc): handlerFunc {
   return async (c: Context) => {
-    let start = Date.now();
+    const start = Date.now();
     await next(c);
-    console.log('=== x-reponse-time ===', Date.now() - start);
+    c.response.setHeader('X-Response-Time', Date.now() - start + 'ms');
   };
 }

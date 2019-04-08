@@ -5,6 +5,8 @@ import typeis from 'type-is';
 import parseBody from 'co-body';
 import { Context } from './context';
 import { Group } from './group';
+const { Stream } = require('stream');
+import { ReadStream } from 'fs';
 
 type RequestListener = (req: IncomingMessage, res: ServerResponse) => void;
 
@@ -177,6 +179,7 @@ export class Echo {
 
       matchedHandler = await applyMiddleware(matchedHandler, ...matchedMiddleware);
       await matchedHandler(ctx);
+      respond(ctx);
     };
   }
 
@@ -192,4 +195,28 @@ async function applyMiddleware(h: handlerFunc, ...m: middlewareFunc[]): Promise<
     h = await m[i](h);
   }
   return h;
+}
+
+function respond(ctx: Context) {
+  if (ctx.body === undefined) return;
+  ctx.response.statusCode = ctx.status;
+  if (isReadableStream(ctx.body)) {
+    (ctx.body as ReadStream).pipe(ctx.response);
+    return;
+  }
+  if (Buffer.isBuffer(ctx.body)) {
+    ctx.response.setHeader('Content-Length', ctx.body.length);
+    ctx.response.setHeader('Content-Type', 'application/octet-stream');
+    ctx.response.end(ctx.body);
+    return;
+  }
+  if (typeof ctx.body !== 'string') {
+    ctx.body = JSON.stringify(ctx.body);
+  }
+  ctx.response.setHeader('Content-Length', Buffer.byteLength(ctx.body));
+  ctx.response.end(ctx.body);
+}
+
+function isReadableStream(obj: any) {
+  return obj instanceof Stream && obj.readable;
 }

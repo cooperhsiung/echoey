@@ -12,6 +12,8 @@ export class Context {
   response: ServerResponse;
   path: string;
   private form: JsonMap;
+  status!: number;
+  body!: string | JsonType | ReadStream | Buffer;
 
   constructor(req: IncomingMessage, res: ServerResponse, path: string, form: JsonMap) {
     this.request = req;
@@ -59,30 +61,26 @@ export class Context {
   }
 
   JSON(code: number, data: JsonType) {
-    this.response.statusCode = code;
-    let dataStr = JSON.stringify(data);
+    this.status = code;
+    this.body = data;
     this.response.setHeader('Content-Type', 'application/json; charset=utf-8');
-    this.response.setHeader('Content-Length', Buffer.byteLength(dataStr));
-    this.response.end(dataStr);
   }
 
   String(code: number, data: string) {
-    this.response.statusCode = code;
+    this.status = code;
+    this.body = data;
     this.response.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    this.response.setHeader('Content-Length', Buffer.byteLength(data));
-    this.response.end(data);
   }
 
   HTML(code: number, data: string) {
-    this.response.statusCode = code;
+    this.status = code;
+    this.body = data;
     this.response.setHeader('Content-Type', 'text/html; charset=utf-8');
-    this.response.setHeader('Content-Length', Buffer.byteLength(data));
-    this.response.end(data);
   }
 
   Stream(code: number, data: ReadStream) {
-    this.response.statusCode = code;
+    this.status = code;
+    this.body = data;
     this.response.setHeader('Content-Type', 'application/octet-stream');
-    data.pipe(this.response);
   }
 }
