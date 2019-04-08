@@ -1,9 +1,8 @@
 {
   "name": "echoey",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "An imitation of golang web framework echo",
   "main": "dist/echo.js",
-  "types": "types/echo.d.ts",
   "scripts": {
     "test": "mocha --reporter spec --bail --check-leaks tests/",
     "build": "tsc",
