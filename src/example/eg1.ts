@@ -7,7 +7,7 @@ const e = new Echo();
 e.Use(testMid);
 
 e.GET('/hello', (c: Context) => {
-  c.String(200, 'hello test');
+  c.String(200, 'hello echoey');
 });
 
 e.Start(3000);
