@@ -10,9 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 function timer(next) {
     return (c) => __awaiter(this, void 0, void 0, function* () {
-        let start = Date.now();
+        const start = Date.now();
         yield next(c);
-        console.log('=== x-reponse-time ===', Date.now() - start);
+        c.response.setHeader('X-Response-Time', Date.now() - start + 'ms');
     });
 }
-exports.default = timer;
+exports.timer = timer;
