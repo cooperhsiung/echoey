@@ -1,12 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -35,7 +27,7 @@ function cors(options = {}) {
     options.credentials = !!options.credentials;
     options.keepHeadersOnError = options.keepHeadersOnError === undefined || !!options.keepHeadersOnError;
     return function (next) {
-        return (c) => __awaiter(this, void 0, void 0, function* () {
+        return async (c) => {
             // If the Origin header is not present terminate this set of steps.
             // The request is outside the scope of this specification.
             // toLowerCase !!!
@@ -45,14 +37,14 @@ function cors(options = {}) {
             // ctx.vary('Origin');
             vary_1.default(c.response, 'Origin');
             if (!requestOrigin)
-                return yield next(c);
+                return await next(c);
             let origin;
             if (typeof options.origin === 'function') {
                 origin = options.origin(c);
                 if (origin instanceof Promise)
-                    origin = yield origin;
+                    origin = await origin;
                 if (!origin)
-                    return yield next(c);
+                    return await next(c);
             }
             else {
                 origin = options.origin || requestOrigin;
@@ -72,10 +64,10 @@ function cors(options = {}) {
                     set('Access-Control-Expose-Headers', options.exposeHeaders);
                 }
                 if (!options.keepHeadersOnError) {
-                    return yield next(c);
+                    return await next(c);
                 }
                 try {
-                    return yield next(c);
+                    return await next(c);
                 }
                 catch (err) {
                     const errHeadersSet = err.headers || {};
@@ -92,7 +84,7 @@ function cors(options = {}) {
                 // The request is outside the scope of this specification.
                 if (!c.request.headers['access-control-request-method']) {
                     // this not preflight request, ignore it
-                    return yield next(c);
+                    return await next(c);
                 }
                 set('Access-Control-Allow-Origin', origin);
                 if (options.credentials === true) {
@@ -113,7 +105,7 @@ function cors(options = {}) {
                 }
                 c.status = 204;
             }
-        });
+        };
     };
 }
 exports.cors = cors;
