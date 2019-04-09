@@ -153,11 +153,7 @@ export class Echo {
 
       this.layers.forEach(layer => {
         let subPath = pathname.replace(layer.path, '');
-        if (
-          layer.path === '/' ||
-          (pathname.startsWith(layer.path) && subPath === '') ||
-          (subPath !== pathname && subPath.startsWith('/'))
-        ) {
+        if (layer.path === '/' || (pathname.startsWith(layer.path) && (subPath === '' || subPath.startsWith('/')))) {
           matchedMiddleware = matchedMiddleware.concat(layer.middleware);
         }
       });

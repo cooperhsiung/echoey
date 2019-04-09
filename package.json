@@ -1,6 +1,6 @@
 {
   "name": "echoey",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "An imitation of golang web framework echo",
   "main": "dist/echo.js",
   "scripts": {
@@ -29,11 +29,13 @@
   "dependencies": {
     "co-body": "^6.0.0",
     "path-to-regexp": "^3.0.0",
-    "type-is": "^1.6.16"
+    "type-is": "^1.6.16",
+    "vary": "^1.1.2"
   },
   "devDependencies": {
     "@types/co-body": "0.0.3",
     "@types/type-is": "^1.6.2",
+    "@types/vary": "^1.1.0",
     "prettier": "^1.16.4"
   }
 }
