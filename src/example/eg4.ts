@@ -1,4 +1,4 @@
-import { Echo, Context, Group, handlerFunc } from '../echo';
+import { Echo, Context, handlerFunc } from '../echo';
 
 // retrieve parameters
 
@@ -32,8 +32,8 @@ e.POST('/hello/:name', (c: Context) => {
 e.Start(3000);
 
 function testMid(h: handlerFunc): handlerFunc {
-  return (c: Context): Error | Promise<Error> => {
+  return async (c: Context) => {
     console.log('testMid1');
-    return h(c);
+    await h(c);
   };
 }

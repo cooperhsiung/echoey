@@ -42,9 +42,9 @@ g.Use(testMid);
 e.Start(3000);
 
 function testMid(h: handlerFunc): handlerFunc {
-  return (c: Context) => {
+  return async (c: Context) => {
     console.log('testMid1');
-    return h(c);
+    await h(c);
   };
 }
 

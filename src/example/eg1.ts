@@ -13,8 +13,8 @@ e.GET('/hello', (c: Context) => {
 e.Start(3000);
 
 function testMid(next: handlerFunc) {
-  return (c: Context) => {
+  return async (c: Context) => {
     console.log('testMid');
-    next(c);
+    await next(c);
   };
 }

@@ -27,8 +27,8 @@ e.AddGroup(UserGroup);
 e.Start(3000);
 
 function testMid(next: handlerFunc): handlerFunc {
-  return (c: Context) => {
+  return async (c: Context) => {
     console.log('testMid1');
-    next(c);
+    await next(c);
   };
 }

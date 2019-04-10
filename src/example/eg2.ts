@@ -8,7 +8,7 @@ e.GET('/hello', (c: Context) => {
   c.String(200, 'hello test');
 });
 
-e.Use(testMid);
+e.Use('/hello', testMid);
 
 let g = e.Group('/admin', testMid);
 g.Use(testMid);
@@ -19,8 +19,8 @@ g.GET('/test', (c: Context) => {
 e.Start(3000);
 
 function testMid(next: handlerFunc) {
-  return (c: Context) => {
+  return async (c: Context) => {
     console.log('testMid');
-    next(c);
+    await next(c);
   };
 }

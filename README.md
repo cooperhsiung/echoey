@@ -31,9 +31,9 @@ e.GET('/hello', (c: Context) => {
 e.Start(3000);
 
 function testMid(next: handlerFunc) {
-  return (c: Context) => {
+  return async (c: Context) => {
     console.log('testMid');
-    next(c);
+    await next(c);
   };
 }
 ```
@@ -61,9 +61,9 @@ e.GET('/sleep', async c => {
 e.Start(3000);
 
 function testMid(next) {
-  return c => {
+  return async c => {
     console.log('testMid');
-    next(c);
+    await next(c);
   };
 }
 
@@ -88,6 +88,32 @@ import { timer, cors } from 'echoey/middleware';
 - [x] cors
 - [ ] compress
 - [ ] jwt
+
+## Caveats
+
+Since handler and middlewares are executed by chained, un promiseed function will break the promise chain
+
+:heavy_check_mark: It is commended to write middleware in this way
+
+```typescript
+function testMid(next: handlerFunc) {
+  return async (c: Context) => {
+    console.log('testMid');
+    await next(c);
+  };
+}
+```
+
+:x: not commended
+
+```typescript
+function testMid(next: handlerFunc) {
+  return (c: Context) => {
+    console.log('testMid');
+    next(c);
+  };
+}
+```
 
 ## License
 
