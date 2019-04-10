@@ -81,17 +81,17 @@ function sleep(delay = 1000) {
 middlewares
 
 ```typescript
-import { timer, cors } from 'echoey/middleware';
+import { timer, cors, compress } from 'echoey/middleware';
 ```
 
 - [x] timer
 - [x] cors
-- [ ] compress
+- [x] compress
 - [ ] jwt
 
 ## Caveats
 
-Since handler and middlewares are executed by chained, un promiseed function will break the promise chain
+Since handler and middlewares are chained to execute, unpromised middleware might break the promises chain.
 
 :smiley: It is commended to write middleware in this way
 

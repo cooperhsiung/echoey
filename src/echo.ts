@@ -134,11 +134,9 @@ export class Echo {
       let form = {};
       if (typeis(req, jsonTypes)) {
         let x = await parseBody.json(req);
-        console.log(x, '=====body');
         form = x;
       } else if (typeis(req, formTypes)) {
         let x = await parseBody.form(req);
-        console.log(x, '=====body');
         form = x;
       }
 
