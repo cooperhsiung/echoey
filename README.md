@@ -93,7 +93,7 @@ import { timer, cors } from 'echoey/middleware';
 
 Since handler and middlewares are executed by chained, un promiseed function will break the promise chain
 
-:heavy_check_mark: It is commended to write middleware in this way
+:smiley: It is commended to write middleware in this way
 
 ```typescript
 function testMid(next: handlerFunc) {
@@ -104,7 +104,7 @@ function testMid(next: handlerFunc) {
 }
 ```
 
-:x: not commended
+:confused: not commended
 
 ```typescript
 function testMid(next: handlerFunc) {
