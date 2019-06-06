@@ -16,6 +16,15 @@ export type handlerFunc = (ctx: Context) => any | Promise<any>;
 
 export type middlewareFunc = (h: handlerFunc) => handlerFunc;
 
+const jsonTypes = [
+  'application/json',
+  'application/json-patch+json',
+  'application/vnd.api+json',
+  'application/csp-report',
+];
+
+const formTypes = ['application/x-www-form-urlencoded'];
+
 type Router = {
   path: string;
   method: string;
@@ -121,26 +130,14 @@ export class Echo {
       let urlObj = parseUrl(url);
       let pathname = urlObj.pathname || '';
 
-      // todo remove
-      var jsonTypes = [
-        'application/json',
-        'application/json-patch+json',
-        'application/vnd.api+json',
-        'application/csp-report',
-      ];
-
-      var formTypes = ['application/x-www-form-urlencoded'];
-
       let form = {};
       if (typeis(req, jsonTypes)) {
-        let x = await parseBody.json(req);
-        form = x;
+        form = await parseBody.json(req);
       } else if (typeis(req, formTypes)) {
-        let x = await parseBody.form(req);
-        form = x;
+        form = await parseBody.form(req);
       }
 
-      console.log('-----', pathname);
+      // console.log('-----', pathname);
 
       // match Router
       let r = this.routes[0];

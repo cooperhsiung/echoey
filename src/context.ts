@@ -50,7 +50,7 @@ export class Context {
 
   QueryParam(key?: string): any {
     let url = this.request.url || '';
-    console.log(url);
+    // console.log(url);
     let urlObj = parseUrl(url);
     let query = urlObj.query || '';
     let params = parseQs(query);

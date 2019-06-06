@@ -1,6 +1,6 @@
 {
   "name": "echoey",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An imitation of golang web framework echo",
   "main": "dist/echo.js",
   "scripts": {
