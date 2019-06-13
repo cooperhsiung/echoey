@@ -8,6 +8,8 @@ import { Group } from './group';
 const { Stream } = require('stream');
 import { ReadStream } from 'fs';
 
+import { serveStatic } from './middleware/static';
+
 type RequestListener = (req: IncomingMessage, res: ServerResponse) => void;
 
 type genGroup = (e: Echo) => Group;
@@ -86,6 +88,14 @@ export class Echo {
     this.routes.push(r);
   }
 
+  Static(prefix: string, root: string) {
+    this.Use(prefix, (next: handlerFunc) => {
+      return async (ctx: Context) => {
+        await serveStatic(ctx, ctx.path, { root });
+      };
+    });
+  }
+
   Use(path: string | middlewareFunc, ...m: middlewareFunc[]) {
     if (typeof path === 'string') {
       let layer = this.layers.find(e => e.path === path);
@@ -140,8 +150,9 @@ export class Echo {
       // console.log('-----', pathname);
 
       // match Router
-      let r = this.routes[0];
-      let ctx = new Context(req, res, r.path, form); // todo
+      // let r = this.routes[0];
+      // let ctx = new Context(req, res, r.path, form); // todo
+      let ctx = new Context(req, res, pathname, form); // todo
 
       let matchedMiddleware: middlewareFunc[] = [];
       let matchedHandler: handlerFunc = notFound; // todo 404

@@ -81,6 +81,6 @@ export class Context {
   Stream(code: number, data: ReadStream) {
     this.status = code;
     this.body = data;
-    this.response.setHeader('Content-Type', 'application/octet-stream');
+    // this.response.setHeader('Content-Type', 'application/octet-stream');
   }
 }

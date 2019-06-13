@@ -28,6 +28,8 @@ e.GET('/hello', (c: Context) => {
   c.String(200, 'hello echoey');
 });
 
+e.Static('/static', 'assets');
+
 e.Start(3000);
 
 function testMid(next: handlerFunc) {
@@ -81,12 +83,13 @@ function sleep(delay = 1000) {
 middlewares
 
 ```typescript
-import { timer, cors, compress } from 'echoey/middleware';
+import { timer, cors, compress, serveStatic } from 'echoey/middleware';
 ```
 
 - [x] timer
 - [x] cors
 - [x] compress
+- [x] serveStatic (use e.Static directly)
 - [ ] jwt
 
 ## Caveats

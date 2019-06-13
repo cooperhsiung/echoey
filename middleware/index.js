@@ -6,3 +6,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./timer"));
 __export(require("./cors"));
 __export(require("./compress"));
+__export(require("./static"));
