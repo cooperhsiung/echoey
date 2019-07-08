@@ -13,7 +13,7 @@ import { middlewareFunc, handlerFunc, Context } from '../echo';
 
 const encodingMethods: { [key: string]: any } = {
   gzip: zlib.createGzip,
-  deflate: zlib.createDeflate,
+  deflate: zlib.createDeflate
 };
 
 export function compress(options: { [key: string]: any } = {}): middlewareFunc {
@@ -37,7 +37,11 @@ export function compress(options: { [key: string]: any } = {}): middlewareFunc {
       if (!((ctx as any).compress === true || filter(type(ctx)))) return;
 
       // identity
-      const encoding = accepts(ctx.request).encodings('gzip', 'deflate', 'identity');
+      const encoding = accepts(ctx.request).encodings(
+        'gzip',
+        'deflate',
+        'identity'
+      );
       if (!encoding) {
         ctx.String(406, 'supported encodings: gzip, deflate, identity');
         return;

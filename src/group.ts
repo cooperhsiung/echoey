@@ -24,13 +24,15 @@ export class Group {
   Use(path: any, ...m: middlewareFunc[]) {
     // path only [\/a-z]
     if (typeof path === 'string') {
-      let layer = this.echo.layers.find(e => e.path === this.prefix + (path === '/' ? '' : path));
+      let layer = this.echo.layers.find(
+        e => e.path === this.prefix + (path === '/' ? '' : path)
+      );
       if (layer) {
         layer.middleware = layer.middleware.concat(m);
       } else {
         let l: Layer = {
           path: this.prefix + (path === '/' ? '' : path),
-          middleware: m,
+          middleware: m
         };
         this.echo.layers.push(l);
       }
@@ -42,7 +44,7 @@ export class Group {
       } else {
         let l: Layer = {
           path: this.prefix,
-          middleware: [path].concat(m),
+          middleware: [path].concat(m)
         };
         this.echo.layers.push(l);
       }
@@ -54,7 +56,7 @@ export class Group {
       path: this.prefix + (path === '/' ? '' : path),
       method: 'GET',
       handler: h,
-      middleware: m,
+      middleware: m
     };
     this.echo.routes.push(r);
   }
@@ -64,7 +66,7 @@ export class Group {
       path: this.prefix + (path === '/' ? '' : path),
       method: 'POST',
       handler: h,
-      middleware: m,
+      middleware: m
     };
     this.echo.routes.push(r);
   }
@@ -74,7 +76,7 @@ export class Group {
       path: this.prefix + (path === '/' ? '' : path),
       method: 'Any',
       handler: h,
-      middleware: m,
+      middleware: m
     };
     this.echo.routes.push(r);
   }

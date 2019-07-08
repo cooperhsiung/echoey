@@ -1,5 +1,5 @@
 import { Echo, Context, handlerFunc } from '../echo';
-import { timer } from '../middleware/timer';
+import { timer } from '../middleware';
 
 // middleware usage
 
@@ -20,7 +20,7 @@ e.GET(
   async (c: Context) => {
     c.JSON(200, { a: 1 });
   },
-  testMid,
+  testMid
 );
 
 e.GET('/hello', (c: Context) => {

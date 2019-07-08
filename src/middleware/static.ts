@@ -21,7 +21,11 @@ import { Context } from '../echo';
  * @api public
  */
 
-export async function serveStatic(ctx: Context, path: any, opts: { [key: string]: any } = {}) {
+export async function serveStatic(
+  ctx: Context,
+  path: any,
+  opts: { [key: string]: any } = {}
+) {
   // options
   const root = opts.root ? normalize(resolve(opts.root)) : '';
   const trailingSlash = path[path.length - 1] === '/';
@@ -76,7 +80,9 @@ export async function serveStatic(ctx: Context, path: any, opts: { [key: string]
     for (let i = 0; i < list.length; i++) {
       let ext = list[i];
       if (typeof ext !== 'string') {
-        throw new TypeError('option extensions must be array of strings or false');
+        throw new TypeError(
+          'option extensions must be array of strings or false'
+        );
       }
       if (!/^\./.exec(ext)) {
         (ext as string) = '.' + ext;
@@ -118,7 +124,8 @@ export async function serveStatic(ctx: Context, path: any, opts: { [key: string]
 
   // stream
   ctx.response.setHeader('Content-Length', stats.size);
-  if (!ctx.response.getHeader('Last-Modified')) ctx.response.setHeader('Last-Modified', stats.mtime.toUTCString());
+  if (!ctx.response.getHeader('Last-Modified'))
+    ctx.response.setHeader('Last-Modified', stats.mtime.toUTCString());
   if (!ctx.response.getHeader('Cache-Control')) {
     const directives = ['max-age=' + ((maxage / 1000) | 0)];
     if (immutable) {
@@ -131,7 +138,10 @@ export async function serveStatic(ctx: Context, path: any, opts: { [key: string]
     var type = mime.lookup(path);
     if (type) {
       var charset = mime.charsets.lookup(type);
-      ctx.response.setHeader('Content-Type', type + (charset ? '; charset=' + charset.toLowerCase() : ''));
+      ctx.response.setHeader(
+        'Content-Type',
+        type + (charset ? '; charset=' + charset.toLowerCase() : '')
+      );
     }
 
     // ctx.response.setHeader('Content-Type', type(path, encodingExt));

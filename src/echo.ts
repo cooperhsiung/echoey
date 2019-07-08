@@ -8,7 +8,7 @@ import { Group } from './group';
 const { Stream } = require('stream');
 import { ReadStream } from 'fs';
 
-import { serveStatic } from './middleware/static';
+import { serveStatic } from './middleware';
 
 type RequestListener = (req: IncomingMessage, res: ServerResponse) => void;
 
@@ -22,7 +22,7 @@ const jsonTypes = [
   'application/json',
   'application/json-patch+json',
   'application/vnd.api+json',
-  'application/csp-report',
+  'application/csp-report'
 ];
 
 const formTypes = ['application/x-www-form-urlencoded'];
@@ -63,7 +63,7 @@ export class Echo {
       path: path,
       method: 'GET',
       handler: h,
-      middleware: m,
+      middleware: m
     };
     this.routes.push(r);
   }
@@ -73,7 +73,7 @@ export class Echo {
       path: path,
       method: 'POST',
       handler: h,
-      middleware: m,
+      middleware: m
     };
     this.routes.push(r);
   }
@@ -83,7 +83,7 @@ export class Echo {
       path: path,
       method: 'Any',
       handler: h,
-      middleware: m,
+      middleware: m
     };
     this.routes.push(r);
   }
@@ -104,7 +104,7 @@ export class Echo {
       } else {
         let l: Layer = {
           path: path,
-          middleware: m,
+          middleware: m
         };
         this.layers.push(l);
       }
@@ -116,7 +116,7 @@ export class Echo {
       } else {
         let l: Layer = {
           path: '/',
-          middleware: [path].concat(m),
+          middleware: [path].concat(m)
         };
         this.layers.push(l);
       }
@@ -159,7 +159,11 @@ export class Echo {
 
       this.layers.forEach(layer => {
         let subPath = pathname.replace(layer.path, '');
-        if (layer.path === '/' || (pathname.startsWith(layer.path) && (subPath === '' || subPath.startsWith('/')))) {
+        if (
+          layer.path === '/' ||
+          (pathname.startsWith(layer.path) &&
+            (subPath === '' || subPath.startsWith('/')))
+        ) {
           matchedMiddleware = matchedMiddleware.concat(layer.middleware);
         }
       });
@@ -170,7 +174,11 @@ export class Echo {
           if (!matched) {
             matchedHandler = notSupport;
           }
-          if ((req.method === route.method.toUpperCase() || route.method.toUpperCase() === 'Any') && !matched) {
+          if (
+            (req.method === route.method.toUpperCase() ||
+              route.method.toUpperCase() === 'Any') &&
+            !matched
+          ) {
             matched = true;
             matchedHandler = route.handler;
             ctx = new Context(req, res, route.path, form); // matched route
@@ -179,7 +187,10 @@ export class Echo {
         }
       });
 
-      matchedHandler = await applyMiddleware(matchedHandler, ...matchedMiddleware);
+      matchedHandler = await applyMiddleware(
+        matchedHandler,
+        ...matchedMiddleware
+      );
       await matchedHandler(ctx);
       respond(ctx);
     };
@@ -192,7 +203,10 @@ export class Echo {
   }
 }
 
-async function applyMiddleware(h: handlerFunc, ...m: middlewareFunc[]): Promise<handlerFunc> {
+async function applyMiddleware(
+  h: handlerFunc,
+  ...m: middlewareFunc[]
+): Promise<handlerFunc> {
   for (let i = m.length - 1; i >= 0; i--) {
     h = await m[i](h);
   }

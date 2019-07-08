@@ -15,7 +15,12 @@ export class Context {
   status!: number;
   body!: string | JsonType | ReadStream | Buffer;
 
-  constructor(req: IncomingMessage, res: ServerResponse, path: string, form: JsonMap) {
+  constructor(
+    req: IncomingMessage,
+    res: ServerResponse,
+    path: string,
+    form: JsonMap
+  ) {
     this.request = req;
     this.response = res;
     this.path = path;

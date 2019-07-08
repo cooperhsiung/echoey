@@ -6,7 +6,7 @@ import { middlewareFunc, handlerFunc, Context } from '../echo';
 
 export function cors(options: { [key: string]: any } = {}): middlewareFunc {
   const defaults = {
-    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
   };
 
   options = Object.assign({}, defaults, options);
@@ -28,7 +28,8 @@ export function cors(options: { [key: string]: any } = {}): middlewareFunc {
   }
 
   options.credentials = !!options.credentials;
-  options.keepHeadersOnError = options.keepHeadersOnError === undefined || !!options.keepHeadersOnError;
+  options.keepHeadersOnError =
+    options.keepHeadersOnError === undefined || !!options.keepHeadersOnError;
   return function(next: handlerFunc): handlerFunc {
     return async (c: Context) => {
       // If the Origin header is not present terminate this set of steps.
@@ -77,10 +78,15 @@ export function cors(options: { [key: string]: any } = {}): middlewareFunc {
           return await next(c);
         } catch (err) {
           const errHeadersSet = err.headers || {};
-          const varyWithOrigin = vary.append(errHeadersSet.vary || errHeadersSet.Vary || '', 'Origin');
+          const varyWithOrigin = vary.append(
+            errHeadersSet.vary || errHeadersSet.Vary || '',
+            'Origin'
+          );
           delete errHeadersSet.Vary;
 
-          err.headers = Object.assign({}, errHeadersSet, headersSet, { vary: varyWithOrigin });
+          err.headers = Object.assign({}, errHeadersSet, headersSet, {
+            vary: varyWithOrigin
+          });
 
           throw err;
         }

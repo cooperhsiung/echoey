@@ -17,7 +17,7 @@ e.GET(
   async (c: Context) => {
     c.JSON(200, { a: 1 });
   },
-  testMid,
+  testMid
 );
 
 let g = e.Group('/admin');
