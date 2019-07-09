@@ -22,3 +22,8 @@ node_modules/
 
 # npm package lock
 package-lock.json
+
+example/
+middleware/
+/*.js
+/*.ts
